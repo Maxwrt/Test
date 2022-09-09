@@ -2,13 +2,18 @@
 //
 
 #include "CMakeProject1.h"
-#include <boost/regex.hpp>
+#include <boost/tuple/tuple.hpp>
+#include <boost/tuple/tuple_io.hpp>
 using namespace std;
-
+using namespace boost;
 int main()
 {
 	std::string str("Hello");
-	str.append("  CMake.");
+	str.append(" CMake.");
 	cout << "str: " << str << endl;
+
+	//调用boost的tuple
+	boost::tuple<int, char, float> tuple_(0, 'a', 0.0);
+	std::cout << "tuple: " << tuple_ << std::endl;
 	return 0;
 }

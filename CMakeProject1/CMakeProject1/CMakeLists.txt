@@ -4,8 +4,12 @@
 cmake_minimum_required (VERSION 3.8)
 project(CMakeProject1)
 set(Boost_DEBUG on)
-set(BOOST_INCLUDEDIR C:\\app\\Boost\\boost_1_80_0)
-set(BOOST_LIBRARYDIR C:\\app\\Boost\\boost_1_80_0\\stage\\lib)
+
+#根据本地Boost环境修改此值
+set(BOOST_ROOT E:\\package\\boost\\)
+
+set(BOOST_INCLUDEDIR ${BOOST_ROOT}boost_1_80_0)
+set(BOOST_LIBRARYDIR ${BOOST_ROOT}boost_1_80_0\\stage\\lib)
 set(Boost_LIB_PREFIX lib)
  
 find_package(Boost 1.80.0 REQUIRED COMPONENTS regex)
