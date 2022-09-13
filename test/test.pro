@@ -12,7 +12,7 @@ DESTDIR = $$PWD
 DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += ASYNC
 DEFINES += THREAD
-DEFINES += DIFF_THREAD_SYNC_BLOCK
+#DEFINES += DIFF_THREAD_SYNC_BLOCK
 message(DEFINES=$${DEFINES})
 
 # You can also make your code fail to compile if it uses deprecated APIs.

@@ -2,6 +2,7 @@
 #include <QString>
 #include <QDebug>
 #include <QDir>
+#include <QFileInfo>
 
 Work::Work(int ar, QObject *parent):QObject (parent)
 {
@@ -10,11 +11,8 @@ Work::Work(int ar, QObject *parent):QObject (parent)
 
 void Work::setResult(const QString &mark)
 {
-#ifdef ASYNC
-    qDebug() << QString("%1: %2 %3 %4").arg(mark).arg(ar_).arg(__FILE__).arg(__FUNCTION__);
-#else
-    qDebug() << QString("%1: %2 %3 %4").arg(mark).arg(ar_).arg(__FILE__).arg(__FUNCTION__);
-#endif
+    qDebug() << QString("%1 filename:%2 line:%3 function:%4").arg(mark).arg(QFileInfo(__FILE__).fileName()).arg(__LINE__).arg(__FUNCTION__);
+    qDebug() << "work thread'id: " << QThread::currentThreadId();
 }
 
 INTTEST::INTTEST(QObject *parent):QObject (parent)
@@ -37,6 +35,7 @@ INTTEST::INTTEST(QObject *parent):QObject (parent)
     work.moveToThread(&thread);
     thread.start();
 #endif
+    qDebug() << "main thread'id: " << QThread::currentThreadId();
 }
 
 INTTEST::~INTTEST()
