@@ -2,6 +2,7 @@
 //
 
 #include "CMakeProject1.h"
+#include "math_.h"
 #include <boost/tuple/tuple.hpp>
 #include <boost/tuple/tuple_io.hpp>
 using namespace std;
@@ -15,5 +16,8 @@ int main()
 	//调用boost的tuple
 	boost::tuple<int, char, float> tuple_(0, 'a', 0.0);
 	std::cout << "tuple: " << tuple_ << std::endl;
+	
+	//调用utility库的sum
+	std::cout << "sum: " << sum(10, 11) << std::endl;
 	return 0;
 }
