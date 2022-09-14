@@ -14,7 +14,7 @@ set(ENV{BOOST_ROOT} ${BOOST_ROOT})
 set(BOOST_INCLUDEDIR ${BOOST_ROOT}boost_1_80_0)
 set(BOOST_LIBRARYDIR ${BOOST_ROOT}boost_1_80_0\\stage\\lib)
 set(Boost_LIB_PREFIX lib)
-find_package(Boost 1.80.0 REQUIRED COMPONENTS regex)
+find_package(Boost 1.80.0 REQUIRED COMPONENTS regex filesystem)
 
 set(UTILITY_INCLUDEDIR ${CMAKE_CURRENT_SOURCE_DIR}/utility)
 set(UTILITY_LIBNRARYDIR ${CMAKE_CURRENT_SOURCE_DIR}/out/build/bin/)
@@ -50,15 +50,22 @@ message(cmake_major_version: ${CMAKE_MAJOR_VERSION})
 message(cmake_minor_version: ${CMAKE_MINOR_VERSION})
 #cmake补丁等级，比如3.4.1中的 1
 message(cmake_patch_version: ${CMAKE_PATCH_VERSION})
-#CMAKE_SYSTEM：系统名称，比如 Linux-­2.6.22
-#CMAKE_SYSTEM_NAME：不包含版本的系统名，比如 Linux
-#CMAKE_SYSTEM_VERSION：系统版本，比如 2.6.22
-#CMAKE_SYSTEM_PROCESSOR：处理器名称，比如 i686
+#系统名称，比如 Linux-­2.6.22
+message(cmake_system: ${CMAKE_SYSTEM})
+#不包含版本的系统名，比如 Linux
+message(cmake_system_name: ${CMAKE_SYSTEM_NAME})
+#系统版本，比如 2.6.22
+message(cmake_system_version: ${CMAKE_SYSTEM_VERSION})
+#：处理器名称，比如 i686
+message(cmake_system_processor: ${CMAKE_SYSTEM_PROCESSOR})
 #UNIX：在所有的类 UNIX 平台下该值为 TRUE，包括 OS X 和 cygwin
 #WIN32：在所有的 win32 平台下该值为 TRUE，包括 cygwin
 #BUILD_SHARED_LIBS：这个开关用来控制默认的库编译方式，如果不进行设置，使用 add_library 又没有指定库类型的情况下，默认编译生成的库都是静态库。如果 set(BUILD_SHARED_LIBS ON) 后，默认生成的为动态库
 #CMAKE_C_FLAGS：设置 C 编译选项，也可以通过指令 add_definitions() 添加
 #CMAKE_CXX_FLAGS：设置 C++ 编译选项，也可以通过指令 add_definitions() 添加
+#CMAKE_INCLUDE_PATH、CMAKE_LIBRARY_PATH 环境变量
+#target_include_directories里的关键字(private、public、interface)控制头文件目录传递
+#target_link_libraries里的关键字控制头文件目录以及链接库传递
 
 message(boost_version: ${Boost_VERSION_STRING})
 message(boost_include_dir: ${BOOST_INCLUDEDIR})
@@ -74,7 +81,7 @@ add_executable (CMakeProject1 "CMakeProject1.cpp" "CMakeProject1.h")
 if (CMAKE_VERSION VERSION_GREATER 3.12)
   set_property(TARGET CMakeProject1 PROPERTY CXX_STANDARD 20)
 endif()
-target_link_libraries(CMakeProject1 ${Boost_LIBRARIES} utility)
+target_link_libraries(CMakeProject1 PUBLIC ${Boost_LIBRARIES} utility)
 
 
 #configure_file 命令用于加入一个配置头文件 config.h ，这个文件由 cmake 从 config.h.in 生成，通过这样的机制，将可以通过预定义一些参数和变量来控制代码的生成。
