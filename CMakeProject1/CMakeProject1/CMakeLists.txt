@@ -14,7 +14,7 @@ set(ENV{BOOST_ROOT} ${BOOST_ROOT})
 set(BOOST_INCLUDEDIR ${BOOST_ROOT}boost_1_80_0)
 set(BOOST_LIBRARYDIR ${BOOST_ROOT}boost_1_80_0\\stage\\lib)
 set(Boost_LIB_PREFIX lib)
-find_package(Boost 1.80.0 REQUIRED COMPONENTS regex filesystem)
+find_package(Boost 1.80.0 REQUIRED COMPONENTS regex filesystem log date_time)
 
 set(UTILITY_INCLUDEDIR ${CMAKE_CURRENT_SOURCE_DIR}/utility)
 set(UTILITY_LIBNRARYDIR ${CMAKE_CURRENT_SOURCE_DIR}/out/build/bin/)

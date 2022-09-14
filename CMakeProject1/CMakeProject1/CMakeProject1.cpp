@@ -6,11 +6,45 @@
 #include <boost/tuple/tuple.hpp>
 #include <boost/tuple/tuple_io.hpp>
 #include <boost/filesystem.hpp>
+#include <boost/log/trivial.hpp>
+#include <boost/log/core.hpp>
+#include <boost/log/expressions.hpp>
+#include <boost/log/sinks/text_file_backend.hpp>
+#include <boost/log/utility/setup/file.hpp>
+#include <boost/log/utility/setup/common_attributes.hpp>
+#include <boost/log/sources/severity_logger.hpp>
+#include <boost/log/sources/record_ostream.hpp>
+#include <boost/date_time/posix_time/posix_time_types.hpp>
+#include <boost/log/support/date_time.hpp>
 #include <vector>
 #include <algorithm>
 using namespace std;
 using namespace boost::filesystem;
-
+namespace logging = boost::log;
+namespace src = boost::log::sources;
+namespace sinks = boost::log::sinks;
+namespace keywords = boost::log::keywords;
+namespace expr = boost::log::expressions;
+void init_log()
+{
+	logging::add_file_log
+	(
+		keywords::file_name = "sample_%N.log",
+		keywords::rotation_size = 10 * 1024 * 1024,
+		keywords::time_based_rotation = sinks::file::rotation_at_time_point(0, 0, 0),
+		keywords::format = (expr::stream << "["
+										 << expr::format_date_time<boost::posix_time::ptime>("TimeStamp", "%Y-%m-%d-%H:%M:%S.%f ")
+										 << path(__FILE__).filename() << ":" << __LINE__
+								         << "]<"
+										 << boost::log::trivial::severity 
+										 << ">:"
+										 << expr::smessage),
+		keywords::auto_flush = true,
+		keywords::open_mode = std::ios_base::app
+	);
+	logging::core::get()->set_filter(logging::trivial::severity >= logging::trivial::trace);
+	logging::add_common_attributes();
+}
 int main(int argc, char *argv[])
 {
 	if (argc < 2)
@@ -72,6 +106,13 @@ int main(int argc, char *argv[])
 		cout << ex.what() << "\n";
 	}
 
+	init_log();
+	BOOST_LOG_TRIVIAL(trace) << "A trace severity message";
+	BOOST_LOG_TRIVIAL(debug) << "A debug severity message";
+	BOOST_LOG_TRIVIAL(info) << "An info severity message";
+	BOOST_LOG_TRIVIAL(warning) << "A warning severity message";
+	BOOST_LOG_TRIVIAL(error) << "An error severity message";
+	BOOST_LOG_TRIVIAL(fatal) << "A fatal severity message";
 
 	return 0;
 }
