@@ -8,6 +8,8 @@
 *.sln.docstates 
 .qmake.stash
 CMakePresets.json
+CMakeSettings.json
+*.exe
 out
 
 
